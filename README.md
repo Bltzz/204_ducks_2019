@@ -5,9 +5,9 @@ When ducks are disturbed by a sudden noise, they fly away almost simultaneously,
 Chances that a duck will then come back after t minutes are given by the following probability density
 function:
 
-    f : [0, +∞[ −→ R
+    f: [0, +∞[ −> R
 
-    t 7−→ ae −t + (4 − 3a)e −2t + (2a − 4)e −4t
+        t 7−> ae −t + (4 − 3a)e −2t + (2a − 4)e −4t
 
 where a is a real constant between 0 and 2.5, which depends on external factors (such as temperature, day
 time, duck’s health etc.).
