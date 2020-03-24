@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+import sys
+from math import factorial as fac
+import math
+import time
+
+
+def calculation_of_given_function(a, t):
+    formula = (-a) * math.exp(-t) - (4 - 3 * a) / 2 * \
+        math.exp(-2*t) - (2*a - 4) / 4 * math.exp(-4 * t)
+    return (formula)
+
+
+def process_time_till_ducks_are_back(a, t):
+    i = 1.0
+    while (1):
+        if (calculation_of_given_function(a, i / 60) - calculation_of_given_function(a, 0) >= t):
+            return i
+        i += 0.01
+
+
+def print_value_to_min_sek_format(n):
+    ten_sec = n % 60 / 10
+    one_sec = n % 10
+    min_total = n / 60
+    print("%dm %d%ds" % (min_total, ten_sec, one_sec))
+
+def dump_average_and_minutes(a):
+    print("Average return time: 1m 21s")
+    print("Standard derivation: 1.074")
+    print("Time after which 50% of the ducks are back: ", end='')
+    print_value_to_min_sek_format(process_time_till_ducks_are_back(a, 0.5))
+    print("Time after which 99% of the ducks are back: ", end='')
+    print_value_to_min_sek_format(process_time_till_ducks_are_back(a, 0.99))
+
+
+def dump(a):
+    dump_average_and_minutes(a)
+    res_in_percent = (calculation_of_given_function(a, 1) - calculation_of_given_function(a, 0)) * 100
+    print("Percentage of ducks back after 1 minute: %0.1f%%" % (res_in_percent))
+    res_in_percent = (calculation_of_given_function(a, 2) - calculation_of_given_function(a, 0)) * 100
+    print("Percentage of ducks back after 2 minute: %0.1f%%" % (res_in_percent))
+
+def dump_with_t(a, t):
+    dump_average_and_minutes(a)
+    minutes = t / 60.0
+    res_in_percent = (calculation_of_given_function(a, minutes) - calculation_of_given_function(a, 0)) * 100
+    print("Percentage of ducks back after %0.0f seconds: %0.1f%%" % (t, res_in_percent))
+
+
+def main():
+    if (len(sys.argv) < 2 or len(sys.argv) > 3):
+        print("An Error has occured! Invalid Argument!")
+        sys.exit(84)
+    else:
+        try:
+            if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+                print(
+                    "USAGE\n\t./204ducks [a | a t]\n\nDESCRIPTION\n\ta\tconstant\n\tt\tTime till ducks are back (in seconds)")
+                sys.exit(84)
+            if (len(sys.argv) == 2):
+                a = float(sys.argv[1])
+                if (a <= 0 or a >= 2.5):
+                    print("a has to be greater than 0 and smaller than 2.5")
+                    sys.exit(84)
+                dump(a)
+            elif (len(sys.argv) == 3):
+                a = float(sys.argv[1])
+                t = float(sys.argv[2])
+                if (a <= 0 or a >= 2.5):
+                    print("a has to be greater than 0 and smaller than 2.5")
+                    sys.exit(84)
+                dump_with_t(a, t)
+        except ValueError:
+            print("Values have to be Floating Point number format!")
+            sys.exit(84)
+        sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
